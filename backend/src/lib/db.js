@@ -1,10 +1,12 @@
 import mongoose from "mongoose";
 
-export const connectDB = async () => {
-  try {
-    const conn = await mongoose.connect(process.env.MONGODB_URI);
-    console.log(`MongoDB connected: ${conn.connection.host}`);
-  } catch (error) {
-    console.log("MongoDB connection error:", error);
-  }
+const connectDB = async () => {
+
+    mongoose.connection.on("connected", () => {
+        console.log("MongoDB connected successfully");
+    });
+
+    await mongoose.connect(`${process.env.MONGODB_URI}/chatMate`);
 };
+
+export default connectDB;
